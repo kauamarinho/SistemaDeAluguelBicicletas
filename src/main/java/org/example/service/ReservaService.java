@@ -1,10 +1,12 @@
 package org.example.service;
 
-import org.example.exception.AluguelException;
-import org.example.model.Bicicleta;
-import org.example.model.Cliente;
-import org.example.model.Reserva;
+import org.example.domain.exception.AluguelException;
+import org.example.domain.model.Bicicleta;
+import org.example.domain.model.Cliente;
+import org.example.domain.model.Reserva;
 import org.example.repository.ReservaRepository;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public class ReservaService {
@@ -16,7 +18,7 @@ public class ReservaService {
         this.reservaRepository = reservaRepository;
     }
 
-    public Reserva realizarReserva(Cliente cliente, Bicicleta bicicleta, String dataReserva) {
+    public Reserva realizarReserva(Cliente cliente, Bicicleta bicicleta, LocalDate dataReserva) {
         if (!bicicleta.verificarDisponibilidade()) {
             throw new AluguelException("Bicicleta indisponivel para reserva.");
         }
@@ -27,15 +29,13 @@ public class ReservaService {
     }
 
     public void cancelarReserva(int idReserva) {
-        Reserva reserva = reservaRepository.buscarPorId(idReserva);
-        if (reserva == null) {
-            throw new AluguelException("Reserva nao encontrada.");
-        }
+        Reserva reserva = reservaRepository.buscarPorId(idReserva)
+                .orElseThrow(() -> new AluguelException("Reserva nao encontrada."));
         reserva.cancelarReserva();
     }
 
     public Reserva buscarPorId(int id) {
-        return reservaRepository.buscarPorId(id);
+        return reservaRepository.buscarPorId(id).orElse(null);
     }
 
     public List<Reserva> listarTodas() {

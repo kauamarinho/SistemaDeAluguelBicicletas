@@ -1,31 +1,36 @@
-package org.example.model;
+package org.example.domain.model;
+
+import org.example.domain.enums.StatusBicicleta;
+import org.example.domain.enums.StatusLocacao;
+
+import java.time.LocalDate;
 
 public class Locacao {
 
     private int id;
     private Cliente cliente;
     private Bicicleta bicicleta;
-    private String dataRetirada;
-    private String dataDevolucao;
+    private LocalDate dataRetirada;
+    private LocalDate dataDevolucao;
     private int horasUsadas;
     private double valorTotal;
-    private String status;
+    private StatusLocacao status;
 
-    public Locacao(int id, Cliente cliente, Bicicleta bicicleta, String dataRetirada) {
+    public Locacao(int id, Cliente cliente, Bicicleta bicicleta, LocalDate dataRetirada) {
         this.id = id;
         this.cliente = cliente;
         this.bicicleta = bicicleta;
         this.dataRetirada = dataRetirada;
-        this.status = "Em andamento";
-        this.bicicleta.alterarStatus("Alugada");
+        this.status = StatusLocacao.EM_ANDAMENTO;
+        this.bicicleta.alterarStatus(StatusBicicleta.ALUGADA);
     }
 
-    public void finalizarLocacao(String dataDevolucao, int horasUsadas) {
+    public void finalizarLocacao(LocalDate dataDevolucao, int horasUsadas) {
         this.dataDevolucao = dataDevolucao;
         this.horasUsadas = horasUsadas;
         this.valorTotal = horasUsadas * bicicleta.getPrecoHora();
-        this.status = "Finalizada";
-        this.bicicleta.alterarStatus("Disponivel");
+        this.status = StatusLocacao.FINALIZADA;
+        this.bicicleta.alterarStatus(StatusBicicleta.DISPONIVEL);
     }
 
     public String exibirDados() {
@@ -39,8 +44,8 @@ public class Locacao {
     public int getId() { return id; }
     public Cliente getCliente() { return cliente; }
     public Bicicleta getBicicleta() { return bicicleta; }
-    public String getDataRetirada() { return dataRetirada; }
-    public String getDataDevolucao() { return dataDevolucao; }
+    public LocalDate getDataRetirada() { return dataRetirada; }
+    public LocalDate getDataDevolucao() { return dataDevolucao; }
     public double getValorTotal() { return valorTotal; }
-    public String getStatus() { return status; }
+    public StatusLocacao getStatus() { return status; }
 }

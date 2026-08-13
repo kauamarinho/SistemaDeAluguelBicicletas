@@ -1,13 +1,15 @@
-package org.example.model;
+package org.example.domain.model;
+
+import org.example.domain.enums.StatusBicicleta;
 
 public class Bicicleta implements Cadastravel {
 
     private int id;
     private String modelo;
-    private String status;
+    private StatusBicicleta status;
     private double precoHora;
 
-    public Bicicleta(int id, String modelo, String status, double precoHora) {
+    public Bicicleta(int id, String modelo, StatusBicicleta status, double precoHora) {
         this.id = id;
         this.modelo = modelo;
         this.status = status;
@@ -15,10 +17,10 @@ public class Bicicleta implements Cadastravel {
     }
 
     public boolean verificarDisponibilidade() {
-        return status.equals("Disponivel");
+        return status == StatusBicicleta.DISPONIVEL;
     }
 
-    public void alterarStatus(String status) {
+    public void alterarStatus(StatusBicicleta status) {
         this.status = status;
     }
 
@@ -38,6 +40,6 @@ public class Bicicleta implements Cadastravel {
     public String getNome() { return modelo; }
 
     public String getModelo() { return modelo; }
-    public String getStatus() { return status; }
+    public StatusBicicleta getStatus() { return status; }
     public double getPrecoHora() { return precoHora; }
 }

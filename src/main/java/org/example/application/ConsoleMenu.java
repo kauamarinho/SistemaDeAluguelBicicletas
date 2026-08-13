@@ -1,35 +1,58 @@
-package org.example;
+package org.example.application;
 
-import org.example.exception.AluguelException;
-import org.example.model.*;
-import org.example.repository.*;
-import org.example.service.*;
+import org.example.config.AppConfig;
+import org.example.domain.exception.AluguelException;
+import org.example.domain.enums.FormaPagamento;
+import org.example.domain.model.Administrador;
+import org.example.domain.model.Bicicleta;
+import org.example.domain.model.Cliente;
+import org.example.domain.model.Funcionario;
+import org.example.domain.model.Locacao;
+import org.example.domain.model.Pagamento;
+import org.example.domain.model.Reserva;
+import org.example.service.BicicletaService;
+import org.example.service.ClienteService;
+import org.example.service.LocacaoService;
+import org.example.service.PagamentoService;
+import org.example.service.ReservaService;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
-public class Main {
+/**
+ * Interface de console do sistema: le a entrada do usuario, chama os services
+ * e exibe o resultado. Nao contem regra de negocio - apenas orquestra a
+ * interacao via terminal.
+ */
+public class ConsoleMenu {
 
-    static Scanner scanner = new Scanner(System.in);
+    private static final DateTimeFormatter FORMATO_DATA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    static Funcionario funcionario =
-            new Funcionario(1, "Carlos");
+    private final Scanner scanner = new Scanner(System.in);
 
-    static Administrador administrador =
-            new Administrador(2, "Marcos");
+    private final Funcionario funcionario;
+    private final Administrador administrador;
 
-    static BicicletaRepository bicicletaRepository = new BicicletaRepository();
-    static ClienteRepository   clienteRepository   = new ClienteRepository();
-    static ReservaRepository   reservaRepository   = new ReservaRepository();
-    static LocacaoRepository   locacaoRepository   = new LocacaoRepository();
+    private final BicicletaService bicicletaService;
+    private final ClienteService clienteService;
+    private final ReservaService reservaService;
+    private final LocacaoService locacaoService;
+    private final PagamentoService pagamentoService;
 
-    static BicicletaService bicicletaService = new BicicletaService(bicicletaRepository);
-    static ClienteService   clienteService   = new ClienteService(clienteRepository);
-    static ReservaService   reservaService   = new ReservaService(reservaRepository);
-    static LocacaoService   locacaoService   = new LocacaoService(locacaoRepository);
-    static PagamentoService pagamentoService = new PagamentoService();
+    public ConsoleMenu(AppConfig config) {
+        this.funcionario = config.getFuncionario();
+        this.administrador = config.getAdministrador();
+        this.bicicletaService = config.getBicicletaService();
+        this.clienteService = config.getClienteService();
+        this.reservaService = config.getReservaService();
+        this.locacaoService = config.getLocacaoService();
+        this.pagamentoService = config.getPagamentoService();
+    }
 
-    public static void main(String[] args) {
+    public void executar() {
 
         carregarDadosIniciais();
 
@@ -58,7 +81,7 @@ public class Main {
         scanner.close();
     }
 
-    static void mostrarMenu() {
+    private void mostrarMenu() {
         System.out.println("\n=== SISTEMA DE ALUGUEL DE BICICLETAS ===");
         System.out.println("1 - Cadastrar cliente");
         System.out.println("2 - Listar clientes");
@@ -73,7 +96,7 @@ public class Main {
         System.out.print("Escolha uma opcao: ");
     }
 
-    static void cadastrarCliente() {
+    private void cadastrarCliente() {
 
         System.out.println("\n-- Cadastrar Cliente --");
 
@@ -108,7 +131,7 @@ public class Main {
         }
     }
 
-    static void listarClientes() {
+    private void listarClientes() {
         System.out.println("\n-- Clientes Cadastrados --");
         List<Cliente> clientes = clienteService.listarTodos();
         if (clientes.isEmpty()) {
@@ -120,14 +143,14 @@ public class Main {
         }
     }
 
-    static void listarBicicletas() {
+    private void listarBicicletas() {
         System.out.println("\n-- Bicicletas --");
         for (Bicicleta b : bicicletaService.listarTodas()) {
             System.out.println(b.exibirDados());
         }
     }
 
-    static void realizarReserva() {
+    private void realizarReserva() {
         System.out.println("\n-- Realizar Reserva --");
 
         listarClientes();
@@ -153,17 +176,20 @@ public class Main {
         }
 
         System.out.print("Data da reserva (dd/mm/aaaa): ");
-        String data = scanner.nextLine();
+        String dataTexto = scanner.nextLine();
 
         try {
+            LocalDate data = LocalDate.parse(dataTexto, FORMATO_DATA);
             Reserva reserva = reservaService.realizarReserva(cliente, bicicleta, data);
             System.out.println("Reserva realizada com sucesso! ID: " + reserva.getId());
+        } catch (DateTimeParseException e) {
+            System.out.println("Erro: data em formato invalido. Use dd/mm/aaaa.");
         } catch (AluguelException e) {
             System.out.println("Erro: " + e.getMessage());
         }
     }
 
-    static void cancelarReserva() {
+    private void cancelarReserva() {
         System.out.println("\n-- Cancelar Reserva --");
         List<Reserva> reservas = reservaService.listarTodas();
         if (reservas.isEmpty()) {
@@ -186,7 +212,7 @@ public class Main {
         }
     }
 
-    static void alugarBicicleta() {
+    private void alugarBicicleta() {
         System.out.println("\n-- Alugar Bicicleta --");
 
         listarClientes();
@@ -212,17 +238,20 @@ public class Main {
         }
 
         System.out.print("Data de retirada (dd/mm/aaaa): ");
-        String data = scanner.nextLine();
+        String dataTexto = scanner.nextLine();
 
         try {
+            LocalDate data = LocalDate.parse(dataTexto, FORMATO_DATA);
             Locacao locacao = locacaoService.alugarBicicleta(cliente, bicicleta, data);
             System.out.println("Locacao criada com sucesso! ID: " + locacao.getId());
+        } catch (DateTimeParseException e) {
+            System.out.println("Erro: data em formato invalido. Use dd/mm/aaaa.");
         } catch (AluguelException e) {
             System.out.println("Erro: " + e.getMessage());
         }
     }
 
-    static void devolverBicicleta() {
+    private void devolverBicicleta() {
         System.out.println("\n-- Devolver Bicicleta --");
         List<Locacao> locacoes = locacaoService.listarTodas();
         if (locacoes.isEmpty()) {
@@ -244,18 +273,25 @@ public class Main {
         }
 
         System.out.print("Data de devolucao (dd/mm/aaaa): ");
-        String data = scanner.nextLine();
+        String dataTexto = scanner.nextLine();
 
         System.out.print("Horas utilizadas: ");
         int horas = scanner.nextInt();
         scanner.nextLine();
 
-        locacaoService.devolverBicicleta(locacao, data, horas);
-        System.out.println("Bicicleta devolvida com sucesso!");
-        System.out.println("Valor total: R$ " + locacao.getValorTotal());
+        try {
+            LocalDate data = LocalDate.parse(dataTexto, FORMATO_DATA);
+            locacaoService.devolverBicicleta(locacao, data, horas);
+            System.out.println("Bicicleta devolvida com sucesso!");
+            System.out.println("Valor total: R$ " + locacao.getValorTotal());
+        } catch (DateTimeParseException e) {
+            System.out.println("Erro: data em formato invalido. Use dd/mm/aaaa.");
+        } catch (AluguelException e) {
+            System.out.println("Erro: " + e.getMessage());
+        }
     }
 
-    static void efetuarPagamento() {
+    private void efetuarPagamento() {
         System.out.println("\n-- Efetuar Pagamento --");
         List<Locacao> locacoes = locacaoService.listarTodas();
         if (locacoes.isEmpty()) {
@@ -276,18 +312,21 @@ public class Main {
             return;
         }
 
-        System.out.print("Forma de pagamento (Dinheiro / Cartao / Pix): ");
-        String forma = scanner.nextLine();
+        System.out.print("Forma de pagamento (PIX / DINHEIRO / CARTAO_CREDITO / CARTAO_DEBITO): ");
+        String formaTexto = scanner.nextLine();
 
         try {
+            FormaPagamento forma = FormaPagamento.valueOf(formaTexto.trim().toUpperCase().replace(" ", "_"));
             Pagamento pagamento = pagamentoService.efetuarPagamento(locacao, forma);
             System.out.println(pagamento.gerarComprovante());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro: forma de pagamento invalida.");
         } catch (AluguelException e) {
             System.out.println("Erro: " + e.getMessage());
         }
     }
 
-    static void listarLocacoes() {
+    private void listarLocacoes() {
         System.out.println("\n-- Locacoes Registradas --");
         List<Locacao> locacoes = locacaoService.listarTodas();
         if (locacoes.isEmpty()) {
@@ -299,7 +338,7 @@ public class Main {
         }
     }
 
-    static void carregarDadosIniciais() {
+    private void carregarDadosIniciais() {
         bicicletaService.cadastrarBicicleta("Caloi Elite",   15.0);
         bicicletaService.cadastrarBicicleta("Monark Urbana", 12.0);
         bicicletaService.cadastrarBicicleta("Sense Bike",    18.0);

@@ -1,25 +1,14 @@
 package org.example.repository;
 
-import org.example.model.Cliente;
-import java.util.ArrayList;
+import org.example.domain.model.Cliente;
 import java.util.List;
+import java.util.Optional;
 
-public class ClienteRepository {
+public interface ClienteRepository {
 
-    private List<Cliente> clientes = new ArrayList<>();
+    void salvar(Cliente cliente);
 
-    public void salvar(Cliente cliente) {
-        clientes.add(cliente);
-    }
+    List<Cliente> listarTodos();
 
-    public List<Cliente> listarTodos() {
-        return clientes;
-    }
-
-    public Cliente buscarPorId(int id) {
-        for (Cliente c : clientes) {
-            if (c.getId() == id) return c;
-        }
-        return null;
-    }
+    Optional<Cliente> buscarPorId(int id);
 }

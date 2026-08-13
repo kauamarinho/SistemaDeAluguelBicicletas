@@ -1,25 +1,14 @@
 package org.example.repository;
 
-import org.example.model.Bicicleta;
-import java.util.ArrayList;
+import org.example.domain.model.Bicicleta;
 import java.util.List;
+import java.util.Optional;
 
-public class BicicletaRepository {
+public interface BicicletaRepository {
 
-    private List<Bicicleta> bicicletas = new ArrayList<>();
+    void salvar(Bicicleta bicicleta);
 
-    public void salvar(Bicicleta bicicleta) {
-        bicicletas.add(bicicleta);
-    }
+    List<Bicicleta> listarTodas();
 
-    public List<Bicicleta> listarTodas() {
-        return bicicletas;
-    }
-
-    public Bicicleta buscarPorId(int id) {
-        for (Bicicleta b : bicicletas) {
-            if (b.getId() == id) return b;
-        }
-        return null;
-    }
+    Optional<Bicicleta> buscarPorId(int id);
 }

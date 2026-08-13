@@ -1,8 +1,8 @@
 package org.example.service;
 
-import org.example.exception.CpfInvalidoException;
-import org.example.exception.EmailInvalidoException;
-import org.example.model.Cliente;
+import org.example.domain.model.Cliente;
+import org.example.domain.vo.Cpf;
+import org.example.domain.vo.Email;
 import org.example.repository.ClienteRepository;
 
 import java.util.List;
@@ -18,14 +18,11 @@ public class ClienteService {
 
     public Cliente cadastrarCliente(String nome, String cpf, String email) {
 
-        validarCpf(cpf);
-        validarEmail(email);
-
         Cliente cliente = new Cliente(
                 proximoId++,
                 nome,
-                cpf,
-                email
+                new Cpf(cpf),
+                new Email(email)
         );
 
         clienteRepository.salvar(cliente);
@@ -33,38 +30,8 @@ public class ClienteService {
         return cliente;
     }
 
-    private void validarCpf(String cpf) {
-
-        cpf = cpf.replace(".", "")
-                .replace("-", "");
-
-        if (cpf.length() != 11) {
-            throw new CpfInvalidoException(
-                    "CPF deve possuir 11 numeros."
-            );
-        }
-
-        for (int i = 0; i < cpf.length(); i++) {
-
-            if (!Character.isDigit(cpf.charAt(i))) {
-                throw new CpfInvalidoException(
-                        "CPF deve conter apenas numeros."
-                );
-            }
-        }
-    }
-
-    private void validarEmail(String email) {
-
-        if (!email.contains("@")) {
-            throw new EmailInvalidoException(
-                    "Email deve conter @."
-            );
-        }
-    }
-
     public Cliente buscarPorId(int id) {
-        return clienteRepository.buscarPorId(id);
+        return clienteRepository.buscarPorId(id).orElse(null);
     }
 
     public List<Cliente> listarTodos() {

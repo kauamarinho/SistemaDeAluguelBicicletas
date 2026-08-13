@@ -1,25 +1,14 @@
 package org.example.repository;
 
-import org.example.model.Locacao;
-import java.util.ArrayList;
+import org.example.domain.model.Locacao;
 import java.util.List;
+import java.util.Optional;
 
-public class LocacaoRepository {
+public interface LocacaoRepository {
 
-    private List<Locacao> locacoes = new ArrayList<>();
+    void salvar(Locacao locacao);
 
-    public void salvar(Locacao locacao) {
-        locacoes.add(locacao);
-    }
+    List<Locacao> listarTodas();
 
-    public List<Locacao> listarTodas() {
-        return locacoes;
-    }
-
-    public Locacao buscarPorId(int id) {
-        for (Locacao l : locacoes) {
-            if (l.getId() == id) return l;
-        }
-        return null;
-    }
+    Optional<Locacao> buscarPorId(int id);
 }

@@ -1,14 +1,16 @@
-package org.example.model;
+package org.example.domain.model;
+
+import org.example.domain.enums.FormaPagamento;
 
 public class Pagamento {
 
     private int id;
     private Locacao locacao;
     private double valor;
-    private String formaPagamento;
+    private FormaPagamento formaPagamento;
     private String status;
 
-    public Pagamento(int id, Locacao locacao, String formaPagamento) {
+    public Pagamento(int id, Locacao locacao, FormaPagamento formaPagamento) {
         this.id = id;
         this.locacao = locacao;
         this.valor = locacao.getValorTotal();

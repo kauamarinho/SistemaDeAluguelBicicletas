@@ -1,113 +1,134 @@
-# 🚲 Sistema de Aluguel de Bicicletas
+# Sistema de Aluguel de Bicicletas
 
-Aplicação de console em **Java** para gerenciar o aluguel de bicicletas: cadastro de clientes, reservas, locações, devoluções e pagamentos. O projeto foi construído com foco em **Programação Orientada a Objetos** e organizado em uma arquitetura em camadas (model, repository e service).
+Aplicação de console em Java para gerenciar aluguel de bicicletas, com cadastro de clientes, reservas, locações, devoluções e pagamentos.
 
-## ✨ Funcionalidades
+O projeto foi organizado para separar melhor a interface de console, o domínio e a infraestrutura em memória. Ele também já conta com testes automatizados dos services.
+
+## Funcionalidades
 
 - Cadastro de clientes com validação de CPF e e-mail
-- Listagem de clientes e de bicicletas
-- Reserva de bicicletas e cancelamento de reservas
-- Aluguel (locação) e devolução de bicicletas com cálculo de valor por hora
-- Pagamento de locações (Dinheiro, Cartão ou Pix) com geração de comprovante
-- Controle automático de status da bicicleta (Disponível, Reservada, Alugada, Removida)
+- Listagem de clientes e bicicletas
+- Reserva e cancelamento de reservas
+- Aluguel e devolução de bicicletas com cálculo de valor por hora
+- Pagamento de locações com geração de comprovante
+- Controle automático de status da bicicleta
 - Menu interativo via terminal
 
-## 🧱 Arquitetura
+## Estrutura do projeto
 
-O código está dividido em camadas de responsabilidade:
-
-```
+```text
 src/main/java/org/example/
-├── Main.java              # Menu e ponto de entrada da aplicação
-├── model/                 # Entidades do domínio
-│   ├── Cadastravel.java   # Interface comum (id, nome, exibirDados)
-│   ├── Bicicleta.java
-│   ├── Cliente.java
-│   ├── Funcionario.java
-│   ├── Administrador.java
-│   ├── Reserva.java
-│   ├── Locacao.java
-│   └── Pagamento.java
-├── repository/            # Persistência em memória (List)
+├── application/
+│   ├── Main.java
+│   └── ConsoleMenu.java
+├── config/
+│   └── AppConfig.java
+├── domain/
+│   ├── model/
+│   │   ├── Administrador.java
+│   │   ├── Bicicleta.java
+│   │   ├── Cadastravel.java
+│   │   ├── Cliente.java
+│   │   ├── Funcionario.java
+│   │   ├── Locacao.java
+│   │   ├── Pagamento.java
+│   │   └── Reserva.java
+│   ├── vo/
+│   │   ├── Cpf.java
+│   │   └── Email.java
+│   ├── enums/
+│   │   ├── FormaPagamento.java
+│   │   ├── StatusBicicleta.java
+│   │   ├── StatusLocacao.java
+│   │   └── StatusReserva.java
+│   └── exception/
+│       ├── AluguelException.java
+│       ├── CpfInvalidoException.java
+│       └── EmailInvalidoException.java
+├── repository/
 │   ├── BicicletaRepository.java
 │   ├── ClienteRepository.java
+│   ├── LocacaoRepository.java
 │   ├── ReservaRepository.java
-│   └── LocacaoRepository.java
-├── service/               # Regras de negócio e validações
-│   ├── BicicletaService.java
-│   ├── ClienteService.java
-│   ├── ReservaService.java
-│   ├── LocacaoService.java
-│   └── PagamentoService.java
-└── exception/             # Exceções personalizadas
-    ├── AluguelException.java
-    ├── CpfInvalidoException.java
-    └── EmailInvalidoException.java
+│   └── inmemory/
+│       ├── InMemoryBicicletaRepository.java
+│       ├── InMemoryClienteRepository.java
+│       ├── InMemoryLocacaoRepository.java
+│       └── InMemoryReservaRepository.java
+└── service/
+    ├── BicicletaService.java
+    ├── ClienteService.java
+    ├── LocacaoService.java
+    ├── PagamentoService.java
+    └── ReservaService.java
+
+src/test/java/org/example/service/
+├── ClienteServiceTest.java
+├── LocacaoServiceTest.java
+├── PagamentoServiceTest.java
+└── ReservaServiceTest.java
 ```
 
-## 🛠️ Tecnologias
+## Tecnologias
 
 - Java 25
 - Maven
-- JUnit 5 (dependência de teste)
+- JUnit 5
 
-## ▶️ Como executar
+## Como executar
 
-Pré-requisitos: **JDK 25** e **Maven** instalados.
+### Pré-requisitos
 
-Clone o repositório:
+- JDK 25 instalado
+- Maven instalado ou Maven Wrapper configurado
 
-```bash
-git clone https://github.com/<seu-usuario>/SistemaDeAluguelBicicletas.git
-cd SistemaDeAluguelBicicletas
+### Rodar os testes
+
+```powershell
+mvn test
 ```
 
-Compile o projeto:
+Ou, se estiver usando o caminho direto do Maven:
 
-```bash
-mvn compile
+```powershell
+& "C:\apache-maven-3.9.16\bin\mvn.cmd" test
 ```
 
-Execute a aplicação:
+### Executar a aplicação
 
-```bash
-mvn exec:java -Dexec.mainClass="org.example.Main"
+```powershell
+mvn exec:java -Dexec.mainClass="org.example.application.Main"
 ```
 
-> Você também pode rodar direto pela sua IDE (IntelliJ, Eclipse, etc.) executando a classe `Main`.
+## Como usar
 
-## 📋 Usando o sistema
+Ao iniciar, o sistema carrega algumas bicicletas de exemplo e mostra o menu principal.
 
-Ao iniciar, o sistema carrega algumas bicicletas de exemplo e exibe o menu:
+Fluxo típico:
 
-```
-=== SISTEMA DE ALUGUEL DE BICICLETAS ===
-1 - Cadastrar cliente
-2 - Listar clientes
-3 - Listar bicicletas
-4 - Realizar reserva
-5 - Cancelar reserva
-6 - Alugar bicicleta
-7 - Devolver bicicleta
-8 - Efetuar pagamento
-9 - Listar locacoes
-0 - Sair
-```
+1. Cadastre um cliente
+2. Faça uma reserva ou locação
+3. Informe a devolução
+4. Efetue o pagamento
 
-Fluxo típico: cadastre um cliente → alugue uma bicicleta → devolva informando as horas usadas → efetue o pagamento e receba o comprovante.
+## Regras de negócio
 
-## ✅ Regras de negócio
+- CPF deve conter 11 dígitos numéricos, ignorando pontos e traços
+- E-mail deve ser válido
+- Só é possível reservar bicicletas disponíveis
+- Só é possível alugar bicicletas que não estejam alugadas ou removidas
+- A devolução exige horas maiores que zero
+- O pagamento só é permitido para locações finalizadas
 
-- **CPF** deve conter 11 dígitos numéricos (pontos e traços são ignorados).
-- **E-mail** deve conter `@`.
-- Só é possível alugar bicicletas que não estejam **Alugadas** ou **Removidas**.
-- Só é possível reservar bicicletas **Disponíveis**.
-- A devolução exige um número de horas maior que zero; o valor é calculado como `horas × preço/hora`.
-- O pagamento só é permitido para locações com status **Finalizada**.
+## Observações de arquitetura
 
-## 👤 Autor
+- `Cpf` e `Email` foram modelados como Value Objects
+- Os status foram transformados em `enum`
+- Os repositórios possuem interfaces e implementações em memória
+- O `Main` apenas inicializa a aplicação e delega a execução do console
+- A estrutura já está preparada para uma futura migração para Spring Boot e JPA
+
+## Autor
 
 Kauã Marinho
 
----
-*Projeto acadêmico desenvolvido para fins de estudo em Programação Orientada a Objetos.*

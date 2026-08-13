@@ -1,6 +1,7 @@
 package org.example.service;
 
-import org.example.model.Bicicleta;
+import org.example.domain.model.Bicicleta;
+import org.example.domain.enums.StatusBicicleta;
 import org.example.repository.BicicletaRepository;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class BicicletaService {
     }
 
     public Bicicleta cadastrarBicicleta(String modelo, double precoHora) {
-        Bicicleta bicicleta = new Bicicleta(proximoId++, modelo, "Disponivel", precoHora);
+        Bicicleta bicicleta = new Bicicleta(proximoId++, modelo, StatusBicicleta.DISPONIVEL, precoHora);
         bicicletaRepository.salvar(bicicleta);
         return bicicleta;
     }
@@ -24,6 +25,6 @@ public class BicicletaService {
     }
 
     public Bicicleta buscarPorId(int id) {
-        return bicicletaRepository.buscarPorId(id);
+        return bicicletaRepository.buscarPorId(id).orElse(null);
     }
 }

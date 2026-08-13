@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.domain.model;
 
 public class Funcionario implements Cadastravel {
 
@@ -10,16 +10,16 @@ public class Funcionario implements Cadastravel {
         this.nome = nome;
     }
 
-    public void registrarLocacao() {
-        System.out.println("Locacao registrada pelo funcionario " + nome + ".");
+    public String registrarLocacao() {
+        return "Locacao registrada pelo funcionario " + nome + ".";
     }
 
-    public void registrarDevolucao() {
-        System.out.println("Devolucao registrada pelo funcionario " + nome + ".");
+    public String registrarDevolucao() {
+        return "Devolucao registrada pelo funcionario " + nome + ".";
     }
 
-    public void consultarLocacao() {
-        System.out.println("Consulta de locacoes realizada pelo funcionario " + nome + ".");
+    public String consultarLocacao() {
+        return "Consulta de locacoes realizada pelo funcionario " + nome + ".";
     }
 
     @Override

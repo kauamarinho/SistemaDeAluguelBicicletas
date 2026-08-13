@@ -1,4 +1,7 @@
-package org.example.model;
+package org.example.domain.model;
+
+import org.example.domain.vo.Cpf;
+import org.example.domain.vo.Email;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,11 +10,11 @@ public class Cliente implements Cadastravel {
 
     private int id;
     private String nome;
-    private String cpf;
-    private String email;
+    private Cpf cpf;
+    private Email email;
     private List<Reserva> reservas;
 
-    public Cliente(int id, String nome, String cpf, String email) {
+    public Cliente(int id, String nome, Cpf cpf, Email email) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
@@ -46,10 +49,10 @@ public class Cliente implements Cadastravel {
     }
 
     public String getCpf() {
-        return cpf;
+        return cpf.getValor();
     }
 
     public String getEmail() {
-        return email;
+        return email.getValor();
     }
 }

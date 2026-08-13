@@ -1,11 +1,14 @@
 package org.example.service;
 
-import org.example.exception.AluguelException;
-import org.example.model.Bicicleta;
-import org.example.model.Cliente;
-import org.example.model.Locacao;
+import org.example.domain.exception.AluguelException;
+import org.example.domain.model.Bicicleta;
+import org.example.domain.model.Cliente;
+import org.example.domain.model.Locacao;
+import org.example.domain.enums.StatusBicicleta;
+import org.example.domain.enums.StatusLocacao;
 import org.example.repository.LocacaoRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class LocacaoService {
@@ -17,13 +20,13 @@ public class LocacaoService {
         this.locacaoRepository = locacaoRepository;
     }
 
-    public Locacao alugarBicicleta(Cliente cliente, Bicicleta bicicleta, String dataRetirada) {
+    public Locacao alugarBicicleta(Cliente cliente, Bicicleta bicicleta, LocalDate dataRetirada) {
 
-        if (bicicleta.getStatus().equals("Alugada")) {
+        if (bicicleta.getStatus() == StatusBicicleta.ALUGADA) {
             throw new AluguelException("Bicicleta ja esta alugada.");
         }
 
-        if (bicicleta.getStatus().equals("Removida")) {
+        if (bicicleta.getStatus() == StatusBicicleta.REMOVIDA) {
             throw new AluguelException("Bicicleta foi removida do sistema.");
         }
 
@@ -39,9 +42,9 @@ public class LocacaoService {
         return locacao;
     }
 
-    public void devolverBicicleta(Locacao locacao, String dataDevolucao, int horasUsadas) {
+    public void devolverBicicleta(Locacao locacao, LocalDate dataDevolucao, int horasUsadas) {
 
-        if (!locacao.getStatus().equals("Em andamento")) {
+        if (locacao.getStatus() != StatusLocacao.EM_ANDAMENTO) {
             throw new AluguelException("Essa locacao nao esta em andamento.");
         }
 
@@ -53,7 +56,7 @@ public class LocacaoService {
     }
 
     public Locacao buscarPorId(int id) {
-        return locacaoRepository.buscarPorId(id);
+        return locacaoRepository.buscarPorId(id).orElse(null);
     }
 
     public List<Locacao> listarTodas() {

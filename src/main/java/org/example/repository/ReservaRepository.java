@@ -1,25 +1,14 @@
 package org.example.repository;
 
-import org.example.model.Reserva;
-import java.util.ArrayList;
+import org.example.domain.model.Reserva;
 import java.util.List;
+import java.util.Optional;
 
-public class ReservaRepository {
+public interface ReservaRepository {
 
-    private List<Reserva> reservas = new ArrayList<>();
+    void salvar(Reserva reserva);
 
-    public void salvar(Reserva reserva) {
-        reservas.add(reserva);
-    }
+    List<Reserva> listarTodas();
 
-    public List<Reserva> listarTodas() {
-        return reservas;
-    }
-
-    public Reserva buscarPorId(int id) {
-        for (Reserva r : reservas) {
-            if (r.getId() == id) return r;
-        }
-        return null;
-    }
+    Optional<Reserva> buscarPorId(int id);
 }
