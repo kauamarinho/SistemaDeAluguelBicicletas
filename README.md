@@ -1,22 +1,26 @@
-# Sistema de Aluguel de Bicicletas
+# 🚲 Bicycle Rental System
 
-Aplicação de console em Java para gerenciar aluguel de bicicletas, com cadastro de clientes, reservas, locações, devoluções e pagamentos.
+![Java](https://img.shields.io/badge/Java-25-orange?logo=openjdk)
+![Maven](https://img.shields.io/badge/Maven-Build-blue?logo=apachemaven)
+![JUnit5](https://img.shields.io/badge/Tests-JUnit5-25A162?logo=junit5)
 
-O projeto foi organizado para separar melhor a interface de console, o domínio e a infraestrutura em memória. Ele também já conta com testes automatizados dos services.
+A Java console application for managing bicycle rentals, including customer registration, reservations, rentals, returns, and payments.
 
-## Funcionalidades
+The project is organized to cleanly separate the console interface, the domain, and the in-memory infrastructure, and already includes automated tests for the services.
 
-- Cadastro de clientes com validação de CPF e e-mail
-- Listagem de clientes e bicicletas
-- Reserva e cancelamento de reservas
-- Aluguel e devolução de bicicletas com cálculo de valor por hora
-- Pagamento de locações com geração de comprovante
-- Controle automático de status da bicicleta
-- Menu interativo via terminal
+## ✨ Features
 
-## Estrutura do projeto
+- Customer registration with CPF and email validation
+- Listing of customers and bicycles
+- Reservation and cancellation of reservations
+- Bicycle rental and return with hourly rate calculation
+- Rental payment with receipt generation
+- Automatic bicycle status control
+- Interactive terminal menu
 
-```text
+## 📁 Project structure
+
+```
 src/main/java/org/example/
 ├── application/
 │   ├── Main.java
@@ -69,66 +73,65 @@ src/test/java/org/example/service/
 └── ReservaServiceTest.java
 ```
 
-## Tecnologias
+## 🛠️ Technologies
 
 - Java 25
 - Maven
 - JUnit 5
 
-## Como executar
+## 🚀 How to run
 
-### Pré-requisitos
+### Prerequisites
 
-- JDK 25 instalado
-- Maven instalado ou Maven Wrapper configurado
+- JDK 25 installed
+- Maven installed or Maven Wrapper configured
 
-### Rodar os testes
+### Run the tests
 
-```powershell
+```bash
 mvn test
 ```
 
-Ou, se estiver usando o caminho direto do Maven:
+Or, if using the direct Maven path:
 
 ```powershell
 & "C:\apache-maven-3.9.16\bin\mvn.cmd" test
 ```
 
-### Executar a aplicação
+### Run the application
 
-```powershell
+```bash
 mvn exec:java -Dexec.mainClass="org.example.application.Main"
 ```
 
-## Como usar
+## 📖 How to use
 
-Ao iniciar, o sistema carrega algumas bicicletas de exemplo e mostra o menu principal.
+On startup, the system loads a few sample bicycles and shows the main menu.
 
-Fluxo típico:
+Typical flow:
 
-1. Cadastre um cliente
-2. Faça uma reserva ou locação
-3. Informe a devolução
-4. Efetue o pagamento
+1. Register a customer
+2. Make a reservation or rental
+3. Report the return
+4. Make the payment
 
-## Regras de negócio
+## 📋 Business rules
 
-- CPF deve conter 11 dígitos numéricos, ignorando pontos e traços
-- E-mail deve ser válido
-- Só é possível reservar bicicletas disponíveis
-- Só é possível alugar bicicletas que não estejam alugadas ou removidas
-- A devolução exige horas maiores que zero
-- O pagamento só é permitido para locações finalizadas
+- CPF must contain 11 numeric digits, ignoring dots and dashes
+- Email must be valid
+- Only available bicycles can be reserved
+- Only bicycles that are not rented or removed can be rented out
+- Returns require hours greater than zero
+- Payment is only allowed for finalized rentals
 
-## Observações de arquitetura
+## 🏗️ Architecture notes
 
-- `Cpf` e `Email` foram modelados como Value Objects
-- Os status foram transformados em `enum`
-- Os repositórios possuem interfaces e implementações em memória
-- O `Main` apenas inicializa a aplicação e delega a execução do console
-- A estrutura já está preparada para uma futura migração para Spring Boot e JPA
+- `Cpf` and `Email` were modeled as Value Objects
+- Statuses were converted into `enum`
+- Repositories have interfaces and in-memory implementations
+- `Main` only initializes the application and delegates execution to the console
+- The structure is already prepared for a future migration to Spring Boot and JPA
 
-## Autor
+## 👤 Author
 
 Kauã Marinho
-
