@@ -1,22 +1,18 @@
-# Sistema de Aluguel de Bicicletas
+Bicycle Rental System
 
-Aplicação de console em Java para gerenciar aluguel de bicicletas, com cadastro de clientes, reservas, locações, devoluções e pagamentos.
+Java console application for managing bicycle rentals, including customer registration, reservations, rentals, returns, and payments.
 
-O projeto foi organizado para separar melhor a interface de console, o domínio e a infraestrutura em memória. Ele também já conta com testes automatizados dos services.
+The project was organized to better separate the console interface, the domain, and the in-memory infrastructure. It also already includes automated tests for the services.
 
-## Funcionalidades
-
-- Cadastro de clientes com validação de CPF e e-mail
-- Listagem de clientes e bicicletas
-- Reserva e cancelamento de reservas
-- Aluguel e devolução de bicicletas com cálculo de valor por hora
-- Pagamento de locações com geração de comprovante
-- Controle automático de status da bicicleta
-- Menu interativo via terminal
-
-## Estrutura do projeto
-
-```text
+Features
+Customer registration with CPF and email validation
+Listing of customers and bicycles
+Reservation and cancellation of reservations
+Bicycle rental and return with hourly rate calculation
+Rental payment with receipt generation
+Automatic bicycle status control
+Interactive terminal menu
+Project structure
 src/main/java/org/example/
 ├── application/
 │   ├── Main.java
@@ -67,68 +63,42 @@ src/test/java/org/example/service/
 ├── LocacaoServiceTest.java
 ├── PagamentoServiceTest.java
 └── ReservaServiceTest.java
-```
-
-## Tecnologias
-
-- Java 25
-- Maven
-- JUnit 5
-
-## Como executar
-
-### Pré-requisitos
-
-- JDK 25 instalado
-- Maven instalado ou Maven Wrapper configurado
-
-### Rodar os testes
-
-```powershell
+Technologies
+Java 25
+Maven
+JUnit 5
+How to run
+Prerequisites
+JDK 25 installed
+Maven installed or Maven Wrapper configured
+Run the tests
 mvn test
-```
 
-Ou, se estiver usando o caminho direto do Maven:
+Or, if using the direct Maven path:
 
-```powershell
 & "C:\apache-maven-3.9.16\bin\mvn.cmd" test
-```
-
-### Executar a aplicação
-
-```powershell
+Run the application
 mvn exec:java -Dexec.mainClass="org.example.application.Main"
-```
+How to use
 
-## Como usar
+On startup, the system loads a few sample bicycles and shows the main menu.
 
-Ao iniciar, o sistema carrega algumas bicicletas de exemplo e mostra o menu principal.
+Typical flow:
 
-Fluxo típico:
-
-1. Cadastre um cliente
-2. Faça uma reserva ou locação
-3. Informe a devolução
-4. Efetue o pagamento
-
-## Regras de negócio
-
-- CPF deve conter 11 dígitos numéricos, ignorando pontos e traços
-- E-mail deve ser válido
-- Só é possível reservar bicicletas disponíveis
-- Só é possível alugar bicicletas que não estejam alugadas ou removidas
-- A devolução exige horas maiores que zero
-- O pagamento só é permitido para locações finalizadas
-
-## Observações de arquitetura
-
-- `Cpf` e `Email` foram modelados como Value Objects
-- Os status foram transformados em `enum`
-- Os repositórios possuem interfaces e implementações em memória
-- O `Main` apenas inicializa a aplicação e delega a execução do console
-- A estrutura já está preparada para uma futura migração para Spring Boot e JPA
-
-## Autor
-
-Kauã Marinho
-
+Register a customer
+Make a reservation or rental
+Report the return
+Make the payment
+Business rules
+CPF must contain 11 numeric digits, ignoring dots and dashes
+Email must be valid
+Only available bicycles can be reserved
+Only bicycles that are not rented or removed can be rented out
+Returns require hours greater than zero
+Payment is only allowed for finalized rentals
+Architecture notes
+Cpf and Email were modeled as Value Objects
+Statuses were converted into enum
+Repositories have interfaces and in-memory implementations
+Main only initializes the application and delegates execution to the console
+The structure is already prepared for a future migration to Spring Boot and JPA
