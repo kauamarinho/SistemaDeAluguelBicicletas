@@ -1,55 +1,55 @@
 package org.example.domain.vo;
 
-import org.example.domain.exception.CpfInvalidoException;
+import org.example.domain.exception.InvalidCpfException;
 
 /**
- * Value Object que representa um CPF valido.
- * A validacao acontece no construtor: nao existe forma de criar
- * um Cliente (ou qualquer outra entidade) com um CPF invalido,
- * independente do caminho de entrada usado (service, teste, import, etc).
+ * Value Object representing a valid CPF (Brazilian taxpayer ID).
+ * Validation happens in the constructor: there is no way to create
+ * a Customer (or any other entity) with an invalid CPF,
+ * regardless of the input path used (service, test, import, etc).
  */
 public final class Cpf {
 
-    private final String valor;
+    private final String value;
 
-    public Cpf(String bruto) {
-        if (bruto == null) {
-            throw new CpfInvalidoException("CPF nao pode ser nulo.");
+    public Cpf(String raw) {
+        if (raw == null) {
+            throw new InvalidCpfException("CPF cannot be null.");
         }
 
-        String normalizado = bruto.replace(".", "").replace("-", "");
+        String normalized = raw.replace(".", "").replace("-", "");
 
-        if (normalizado.length() != 11) {
-            throw new CpfInvalidoException("CPF deve possuir 11 numeros.");
+        if (normalized.length() != 11) {
+            throw new InvalidCpfException("CPF must have 11 digits.");
         }
 
-        for (int i = 0; i < normalizado.length(); i++) {
-            if (!Character.isDigit(normalizado.charAt(i))) {
-                throw new CpfInvalidoException("CPF deve conter apenas numeros.");
+        for (int i = 0; i < normalized.length(); i++) {
+            if (!Character.isDigit(normalized.charAt(i))) {
+                throw new InvalidCpfException("CPF must contain only digits.");
             }
         }
 
-        this.valor = normalizado;
+        this.value = normalized;
     }
 
-    public String getValor() {
-        return valor;
+    public String getValue() {
+        return value;
     }
 
     @Override
     public String toString() {
-        return valor;
+        return value;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Cpf other)) return false;
-        return valor.equals(other.valor);
+        return value.equals(other.value);
     }
 
     @Override
     public int hashCode() {
-        return valor.hashCode();
+        return value.hashCode();
     }
 }

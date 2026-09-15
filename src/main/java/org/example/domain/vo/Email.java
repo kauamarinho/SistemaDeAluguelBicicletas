@@ -1,45 +1,45 @@
 package org.example.domain.vo;
 
-import org.example.domain.exception.EmailInvalidoException;
+import org.example.domain.exception.InvalidEmailException;
 
 import java.util.regex.Pattern;
 
 /**
- * Value Object que representa um e-mail valido.
- * A validacao acontece no construtor, garantindo que a regra
- * nao possa ser burlada por nenhum caminho de entrada.
+ * Value Object representing a valid e-mail address.
+ * Validation happens in the constructor, ensuring the rule
+ * cannot be bypassed by any input path.
  */
 public final class Email {
 
-    private static final Pattern PADRAO = Pattern.compile("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");
+    private static final Pattern PATTERN = Pattern.compile("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");
 
-    private final String valor;
+    private final String value;
 
-    public Email(String bruto) {
-        if (bruto == null || !PADRAO.matcher(bruto).matches()) {
-            throw new EmailInvalidoException("Email invalido.");
+    public Email(String raw) {
+        if (raw == null || !PATTERN.matcher(raw).matches()) {
+            throw new InvalidEmailException("Invalid email.");
         }
-        this.valor = bruto;
+        this.value = raw;
     }
 
-    public String getValor() {
-        return valor;
+    public String getValue() {
+        return value;
     }
 
     @Override
     public String toString() {
-        return valor;
+        return value;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Email other)) return false;
-        return valor.equals(other.valor);
+        return value.equals(other.value);
     }
 
     @Override
     public int hashCode() {
-        return valor.hashCode();
+        return value.hashCode();
     }
 }

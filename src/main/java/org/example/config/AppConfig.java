@@ -1,84 +1,84 @@
 package org.example.config;
 
-import org.example.domain.model.Administrador;
-import org.example.domain.model.Funcionario;
-import org.example.repository.BicicletaRepository;
-import org.example.repository.ClienteRepository;
-import org.example.repository.LocacaoRepository;
-import org.example.repository.ReservaRepository;
-import org.example.repository.inmemory.InMemoryBicicletaRepository;
-import org.example.repository.inmemory.InMemoryClienteRepository;
-import org.example.repository.inmemory.InMemoryLocacaoRepository;
-import org.example.repository.inmemory.InMemoryReservaRepository;
-import org.example.service.BicicletaService;
-import org.example.service.ClienteService;
-import org.example.service.LocacaoService;
-import org.example.service.PagamentoService;
-import org.example.service.ReservaService;
+import org.example.domain.model.Administrator;
+import org.example.domain.model.Employee;
+import org.example.repository.BicycleRepository;
+import org.example.repository.CustomerRepository;
+import org.example.repository.RentalRepository;
+import org.example.repository.ReservationRepository;
+import org.example.repository.inmemory.InMemoryBicycleRepository;
+import org.example.repository.inmemory.InMemoryCustomerRepository;
+import org.example.repository.inmemory.InMemoryRentalRepository;
+import org.example.repository.inmemory.InMemoryReservationRepository;
+import org.example.service.BicycleService;
+import org.example.service.CustomerService;
+import org.example.service.RentalService;
+import org.example.service.PaymentService;
+import org.example.service.ReservationService;
 
 /**
- * Centraliza a instanciacao e a fiacao (wiring) das dependencias da aplicacao:
- * repositorios, services e os atores fixos do sistema (funcionario/administrador).
- * Hoje monta tudo em memoria; em uma migracao futura para Spring Boot, essas
- * instancias tendem a virar beans geridos pelo container.
+ * Centralizes the instantiation and wiring of the application's dependencies:
+ * repositories, services and the fixed actors of the system (employee/administrator).
+ * Today everything is assembled in memory; in a future migration to Spring Boot,
+ * these instances would tend to become beans managed by the container.
  */
 public class AppConfig {
 
-    private final Funcionario funcionario;
-    private final Administrador administrador;
+    private final Employee employee;
+    private final Administrator administrator;
 
-    private final BicicletaRepository bicicletaRepository;
-    private final ClienteRepository clienteRepository;
-    private final ReservaRepository reservaRepository;
-    private final LocacaoRepository locacaoRepository;
+    private final BicycleRepository bicycleRepository;
+    private final CustomerRepository customerRepository;
+    private final ReservationRepository reservationRepository;
+    private final RentalRepository rentalRepository;
 
-    private final BicicletaService bicicletaService;
-    private final ClienteService clienteService;
-    private final ReservaService reservaService;
-    private final LocacaoService locacaoService;
-    private final PagamentoService pagamentoService;
+    private final BicycleService bicycleService;
+    private final CustomerService customerService;
+    private final ReservationService reservationService;
+    private final RentalService rentalService;
+    private final PaymentService paymentService;
 
     public AppConfig() {
-        this.funcionario = new Funcionario(1, "Carlos");
-        this.administrador = new Administrador(2, "Marcos");
+        this.employee = new Employee(1, "Carlos");
+        this.administrator = new Administrator(2, "Marcos");
 
-        this.bicicletaRepository = new InMemoryBicicletaRepository();
-        this.clienteRepository = new InMemoryClienteRepository();
-        this.reservaRepository = new InMemoryReservaRepository();
-        this.locacaoRepository = new InMemoryLocacaoRepository();
+        this.bicycleRepository = new InMemoryBicycleRepository();
+        this.customerRepository = new InMemoryCustomerRepository();
+        this.reservationRepository = new InMemoryReservationRepository();
+        this.rentalRepository = new InMemoryRentalRepository();
 
-        this.bicicletaService = new BicicletaService(bicicletaRepository);
-        this.clienteService = new ClienteService(clienteRepository);
-        this.reservaService = new ReservaService(reservaRepository);
-        this.locacaoService = new LocacaoService(locacaoRepository);
-        this.pagamentoService = new PagamentoService();
+        this.bicycleService = new BicycleService(bicycleRepository);
+        this.customerService = new CustomerService(customerRepository);
+        this.reservationService = new ReservationService(reservationRepository);
+        this.rentalService = new RentalService(rentalRepository);
+        this.paymentService = new PaymentService();
     }
 
-    public Funcionario getFuncionario() {
-        return funcionario;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public Administrador getAdministrador() {
-        return administrador;
+    public Administrator getAdministrator() {
+        return administrator;
     }
 
-    public BicicletaService getBicicletaService() {
-        return bicicletaService;
+    public BicycleService getBicycleService() {
+        return bicycleService;
     }
 
-    public ClienteService getClienteService() {
-        return clienteService;
+    public CustomerService getCustomerService() {
+        return customerService;
     }
 
-    public ReservaService getReservaService() {
-        return reservaService;
+    public ReservationService getReservationService() {
+        return reservationService;
     }
 
-    public LocacaoService getLocacaoService() {
-        return locacaoService;
+    public RentalService getRentalService() {
+        return rentalService;
     }
 
-    public PagamentoService getPagamentoService() {
-        return pagamentoService;
+    public PaymentService getPaymentService() {
+        return paymentService;
     }
 }

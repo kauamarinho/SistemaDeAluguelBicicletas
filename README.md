@@ -29,48 +29,48 @@ src/main/java/org/example/
 │   └── AppConfig.java
 ├── domain/
 │   ├── model/
-│   │   ├── Administrador.java
-│   │   ├── Bicicleta.java
-│   │   ├── Cadastravel.java
-│   │   ├── Cliente.java
-│   │   ├── Funcionario.java
-│   │   ├── Locacao.java
-│   │   ├── Pagamento.java
-│   │   └── Reserva.java
+│   │   ├── Administrator.java
+│   │   ├── Bicycle.java
+│   │   ├── Registrable.java
+│   │   ├── Customer.java
+│   │   ├── Employee.java
+│   │   ├── Rental.java
+│   │   ├── Payment.java
+│   │   └── Reservation.java
 │   ├── vo/
 │   │   ├── Cpf.java
 │   │   └── Email.java
 │   ├── enums/
-│   │   ├── FormaPagamento.java
-│   │   ├── StatusBicicleta.java
-│   │   ├── StatusLocacao.java
-│   │   └── StatusReserva.java
+│   │   ├── PaymentMethod.java
+│   │   ├── BicycleStatus.java
+│   │   ├── RentalStatus.java
+│   │   └── ReservationStatus.java
 │   └── exception/
-│       ├── AluguelException.java
-│       ├── CpfInvalidoException.java
-│       └── EmailInvalidoException.java
+│       ├── RentalException.java
+│       ├── InvalidCpfException.java
+│       └── InvalidEmailException.java
 ├── repository/
-│   ├── BicicletaRepository.java
-│   ├── ClienteRepository.java
-│   ├── LocacaoRepository.java
-│   ├── ReservaRepository.java
+│   ├── BicycleRepository.java
+│   ├── CustomerRepository.java
+│   ├── RentalRepository.java
+│   ├── ReservationRepository.java
 │   └── inmemory/
-│       ├── InMemoryBicicletaRepository.java
-│       ├── InMemoryClienteRepository.java
-│       ├── InMemoryLocacaoRepository.java
-│       └── InMemoryReservaRepository.java
+│       ├── InMemoryBicycleRepository.java
+│       ├── InMemoryCustomerRepository.java
+│       ├── InMemoryRentalRepository.java
+│       └── InMemoryReservationRepository.java
 └── service/
-    ├── BicicletaService.java
-    ├── ClienteService.java
-    ├── LocacaoService.java
-    ├── PagamentoService.java
-    └── ReservaService.java
+    ├── BicycleService.java
+    ├── CustomerService.java
+    ├── RentalService.java
+    ├── PaymentService.java
+    └── ReservationService.java
 
 src/test/java/org/example/service/
-├── ClienteServiceTest.java
-├── LocacaoServiceTest.java
-├── PagamentoServiceTest.java
-└── ReservaServiceTest.java
+├── CustomerServiceTest.java
+├── RentalServiceTest.java
+├── PaymentServiceTest.java
+└── ReservationServiceTest.java
 ```
 
 ## 🛠️ Technologies
